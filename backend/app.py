@@ -8,23 +8,21 @@ from sklearn.preprocessing import StandardScaler
 app = Flask(__name__)
 CORS(app)
 
-# Load trained models
 heart_model = joblib.load("models/heart_disease_model.pkl")
-diabetes_model = joblib.load("models/diabetes_model.pkl")  # Assume you have this model
+diabetes_model = joblib.load("models/diabetes_model.pkl")
+disease_model = joblib.load("models/disease_prediction_model.pkl")
+disease_encoder = joblib.load("models/label_encoder.pkl") 
 
 scaler = StandardScaler()
-scaler = joblib.load("models/scaler_diabetes.pkl")  # Save training data mean & std for scaling
+scaler = joblib.load("models/scaler_diabetes.pkl")
 
-
-# Label encoding mapping (same used in training)
 gender_mapping = {"male": 1, "female": 0, "other": 2}
-
 
 @app.route("/api/predict-heart", methods=["POST"])
 def predict_heart():
     try:
         age = int(request.form['age'])
-        sex = 1 if request.form['sex'] == 'Male' else 0  # Encode Male as 1, Female as 0
+        sex = 1 if request.form['sex'] == 'Male' else 0
         chest_pain = int(request.form['chest_pain'])
         exercise_angina = 1 if request.form['exercise_angina'] == 'Yes' else 0
         rest_ecg = int(request.form['rest_ecg'])
@@ -44,9 +42,8 @@ def predict_diabetes():
     try:
         data = request.json
 
-        # Convert input data to appropriate format
         input_data = [
-            gender_mapping.get(data["gender"], 2),  # Default to "other" if not found
+            gender_mapping.get(data["gender"], 2), 
             int(data["age"]),
             int(data["hypertension"]),
             int(data["heart_disease"]),
@@ -56,11 +53,9 @@ def predict_diabetes():
             float(data["blood_glucose_level"])
         ]
 
-        # Convert to NumPy array and scale
         input_data = np.array(input_data).reshape(1, -1)
         input_data_scaled = scaler.transform(input_data)
 
-        # Predict using the model
         prediction = diabetes_model.predict(input_data_scaled)[0]
 
         return jsonify({"prediction": int(prediction)})
@@ -69,10 +64,23 @@ def predict_diabetes():
         return jsonify({"error": str(e)})
 
 @app.route("/api/iot-temperature", methods=["GET"])
-def get_temperature():
-    temperature = round(random.uniform(35.0, 40.0), 1)  # Simulated IoT temperature
-    return jsonify({"temperature": temperature})
+def get_temperature_and_predict_disease():
+    body_temp = 101.5
+    room_temp = 72.0
+    pulse = 95
+    spo2 = 96
+
+    input_data = np.array([[body_temp, room_temp, pulse, spo2]])
+    predicted_label = disease_model.predict(input_data)[0]
+    predicted_disease = disease_encoder.inverse_transform([predicted_label])[0]
+
+    return jsonify({
+        "body_temperature": body_temp,
+        "room_temperature": room_temp,
+        "pulse": pulse,
+        "spo2": spo2,
+        "predicted_disease": predicted_disease
+    })
 
 if __name__ == "__main__":
     app.run(debug=True)
-
