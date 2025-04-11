@@ -6,6 +6,7 @@ import Navbar from "./components/Navbar";
 import Home from "./components/Home";
 import NotFound from "./components/NotFound"; // 404 Page
 import "./styles/App.css";
+import IoTPredictor from "./components/IoTPredictor";
 
 const App = () => {
     return (
@@ -16,6 +17,7 @@ const App = () => {
                     <Route path="/" element={<Home />} />
                     <Route path="/heart" element={<HeartForm />} />
                     <Route path="/diabetes" element={<DiabetesForm />} />
+                    <Route path="/iot" element={<IoTPredictor />} />
                     <Route path="*" element={<NotFound />} />
                 </Routes>
             </div>

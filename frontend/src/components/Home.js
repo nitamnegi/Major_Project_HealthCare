@@ -30,7 +30,7 @@ const Home = () => {
                     </div>
                     <div className="feature-item">
                         <img src={`${process.env.PUBLIC_URL}/images/iot-icon.png`} alt="IoT Integration" />
-                        <h3><Link to="*">IoT-Based Monitoring</Link></h3>
+                        <h3><Link to="/iot">IoT-Based Monitoring</Link></h3>
                         <p>Fetch live health data like temperature & heart rate.</p>
                     </div>
                 </div>

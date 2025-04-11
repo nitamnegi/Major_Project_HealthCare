@@ -1,0 +1,57 @@
+.iot-predictor {
+    max-width: 600px;
+    margin: 2rem auto;
+    padding: 2rem;
+    border-radius: 16px;
+    background-color: #f9fbfc;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  .iot-predictor h2 {
+    font-size: 1.8rem;
+    color: #2c3e50;
+    margin-bottom: 1.5rem;
+  }
+  
+  .iot-predictor button {
+    padding: 0.7rem 1.5rem;
+    background-color: #007bff;
+    border: none;
+    border-radius: 10px;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .iot-predictor button:hover {
+    background-color: #0056b3;
+  }
+  
+  .results {
+    margin-top: 2rem;
+    background-color: #eaf4fc;
+    padding: 1.5rem;
+    border-radius: 12px;
+    text-align: left;
+  }
+  
+  .results p {
+    margin: 0.5rem 0;
+    font-size: 1.1rem;
+    color: #34495e;
+  }
+  
+  .highlight {
+    font-weight: bold;
+    color: #e74c3c;
+  }
+  
+  .error {
+    color: red;
+    font-weight: bold;
+    margin-top: 1rem;
+  }
+  
